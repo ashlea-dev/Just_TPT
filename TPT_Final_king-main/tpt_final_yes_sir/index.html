@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Monitoring System - LABTEK VI</title>
+  
+  <!-- External Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-animation"></div>
+
+  <!-- Floating Particles -->
+  <div class="particle" style="left: 10%; top: 20%; animation-delay: 0s;"></div>
+  <div class="particle" style="left: 80%; top: 40%; animation-delay: 2s;"></div>
+  <div class="particle" style="left: 30%; top: 70%; animation-delay: 4s;"></div>
+  <div class="particle" style="left: 90%; top: 10%; animation-delay: 6s;"></div>
+  <div class="particle" style="left: 50%; top: 90%; animation-delay: 8s;"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo-section">
+        <div class="logo-icon">⚡</div>
+        <div class="header-text">
+          <h1>Energy Monitoring System</h1>
+          <p>LABTEK VI - Fakultas Teknologi Industri ITB</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="status-badge">
+          <span class="status-dot" id="statusDot"></span>
+          <span>Real-time</span>
+        </div>
+        <button class="notification-btn" onclick="UI.toggleNotifications()">
+          🔔
+          <span class="notification-badge">3</span>
+        </button>
+        <button class="theme-toggle" onclick="UI.toggleTheme()">🌓</button>
+        <button class="fullscreen-btn" onclick="UI.toggleFullscreen()">⛶</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notification Panel -->
+  <div class="notification-panel" id="notificationPanel">
+    <div class="notification-header">
+      <div class="notification-title">Notifikasi</div>
+      <button class="modal-close" onclick="UI.toggleNotifications()">×</button>
+    </div>
+    <div class="notification-list">
+      <div class="notification-item unread">
+        <div class="alert-title">⚠️ High Energy Usage</div>
+        <div class="alert-time">Lantai 3 - 2 menit yang lalu</div>
+      </div>
+      <div class="notification-item unread">
+        <div class="alert-title">📊 Report Ready</div>
+        <div class="alert-time">Monthly report tersedia - 15 menit yang lalu</div>
+      </div>
+      <div class="notification-item">
+        <div class="alert-title">✅ System Update</div>
+        <div class="alert-time">Maintenance selesai - 1 jam yang lalu</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="container">
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="UI.switchTab('overview')">🏠 Overview</button>
+      <button class="nav-tab" onclick="UI.switchTab('daily')">📅 Harian</button>
+      <button class="nav-tab" onclick="UI.switchTab('monthly')">📊 Bulanan</button>
+      <button class="nav-tab" onclick="UI.switchTab('predictive')">🤖 AI Predictive</button>
+      <button class="nav-tab" onclick="UI.switchTab('comparison')">⚖️ Comparison</button>
+      <button class="nav-tab" onclick="UI.switchTab('heatmap')">🔥 Heatmap</button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loadingBox" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Memuat data energi...</p>
+  </div>
+
+  <!-- Error -->
+  <div id="errorBox" class="error-container hidden">
+    <div class="error-icon">⚠️</div>
+    <div class="error-title">Oops! Terjadi Kesalahan</div>
+    <div class="error-message" id="errorMessage"></div>
+    <button class="btn btn-primary" onclick="API.fetchData()">🔄 Coba Lagi</button>
+  </div>
+
+  <!-- Overview Section -->
+  <section id="overviewSection" class="container section active">
+    <!-- Content loaded dynamically -->
+  </section>
+
+  <!-- Daily Section -->
+  <section id="dailySection" class="container section">
+    <!-- Content loaded dynamically -->
+  </section>
+
+  <!-- Monthly Section -->
+  <section id="monthlySection" class="container section">
+    <!-- Content loaded dynamically -->
+  </section>
+
+  <!-- Predictive Section -->
+  <section id="predictiveSection" class="container section">
+    <!-- Content loaded dynamically -->
+  </section>
+
+  <!-- Comparison Section -->
+  <section id="comparisonSection" class="container section">
+    <!-- Content loaded dynamically -->
+  </section>
+
+  <!-- Heatmap Section -->
+  <section id="heatmapSection" class="container section">
+    <!-- Content loaded dynamically -->
+  </section>
+
+  <!-- Modal -->
+  <div class="modal" id="detailModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">📊 Detailed Analysis Report</div>
+        <button class="modal-close" onclick="UI.closeModal('detailModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <h4 style="margin-bottom: 1rem;">Executive Summary</h4>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+          Comprehensive energy usage analysis for the selected period with key insights and recommendations.
+        </p>
+        <div class="data-info" style="margin-bottom: 1.5rem;">
+          <div class="data-item">
+            <span class="data-label">Total Energy Consumed</span>
+            <span class="data-value">2,847 kWh</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Total Cost</span>
+            <span class="data-value">Rp 4,270,500</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Carbon Footprint</span>
+            <span class="data-value">1.42 tons CO₂</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Efficiency Score</span>
+            <span class="data-value">87.5%</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width: 100%;">📥 Download Full Report (PDF)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2024 LABTEK VI Energy Monitoring System | Fakultas Teknologi Industri ITB</p>
+    <p style="margin-top: 0.5rem; font-size: 0.85rem;">Powered by AI & Real-time IoT Analytics | Last Updated: <span id="lastUpdate">--</span></p>
+  </footer>
+
+  <!-- JavaScript Files -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/tabs/overview.js"></script>
+  <script src="js/tabs/daily.js"></script>
+  <script src="js/tabs/monthly.js"></script>
+  <script src="js/tabs/predictive.js"></script>
+  <script src="js/tabs/comparison.js"></script>
+  <script src="js/tabs/heatmap.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
